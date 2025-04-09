@@ -79,21 +79,21 @@ public class BackgroundManager : MonoBehaviour
         {
             for (int i = 0; i < backgrounds.Length; i++)
             {
-                backgrounds[i].transform.position = new Vector3(backgroundStarts[i], 0f, 0f);
+                backgrounds[i].transform.position = new Vector3(backgroundStarts[i], -9.9f, 0f);
             }
         }
         if (midgrounds[0].transform.position.x <= -sizes[1])
         {
             for (int i = 0; i < midgrounds.Length; i++)
             {
-                midgrounds[i].transform.position = new Vector3(midgroundStarts[i], 0f, 0f);
+                midgrounds[i].transform.position = new Vector3(midgroundStarts[i], -18.6f, 0f);
             }
         }
         if (foregrounds[0].transform.position.x <= -sizes[2])
         {
             for (int i = 0; i < foregrounds.Length; i++)
             {
-                foregrounds[i].transform.position = new Vector3(foregroundStarts[i], -16f, 0f);
+                foregrounds[i].transform.position = new Vector3(foregroundStarts[i], -18.6f, 0f);
             }
         }
     }
