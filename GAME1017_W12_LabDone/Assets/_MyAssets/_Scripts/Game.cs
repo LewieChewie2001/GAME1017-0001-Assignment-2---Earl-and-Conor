@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -10,6 +10,7 @@ public class Game : MonoBehaviour
     public SoundManager SOMA;
 
     [SerializeField] TMP_Text timerText;
+    [SerializeField] TMP_Text bestTime;
     private float startTime;
 
     private void Awake() // Ensure there is only one instance.
