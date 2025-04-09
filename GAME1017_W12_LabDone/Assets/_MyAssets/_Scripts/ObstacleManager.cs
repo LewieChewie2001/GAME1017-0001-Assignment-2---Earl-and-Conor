@@ -15,7 +15,7 @@ public class ObstacleManager : MonoBehaviour
         obstacles = new List<GameObject>(); 
         for (int i = 0; i < 9; i++)
         {
-            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(i * 4f, -16f, 0f), Quaternion.identity);
+            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(i * 4f, -18.6f, 0f), Quaternion.identity);
             obsInst.transform.parent = transform;
             obstacles.Add(obsInst);
         }
@@ -34,7 +34,7 @@ public class ObstacleManager : MonoBehaviour
             Destroy(obstacles[0]);
             obstacles.RemoveAt(0);
             // Push a new obstacle at the end.
-            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(32f, -16f, 0f), Quaternion.identity);
+            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(32f, -21f, 0f), Quaternion.identity);
             if (obsCtr++ % 3 == 0)
             {
                 obsInst.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
