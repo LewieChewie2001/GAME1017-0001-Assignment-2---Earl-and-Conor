@@ -166,4 +166,10 @@ public class SoundManager
                 return null;
         }
     }
+
+    public void SetVolume(float volume)
+    {
+        AudioListener.volume = volume;  // Adjust the global volume
+    }
+
 }
