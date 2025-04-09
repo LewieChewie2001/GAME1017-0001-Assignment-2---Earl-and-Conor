@@ -24,6 +24,8 @@ public class PlayerScript : MonoBehaviour, IReceiver
     private Rigidbody2D rb;
     private CapsuleCollider2D cc;
 
+
+
     private CharacterState currentState;
     private bool jumpStarted;
 
@@ -63,7 +65,7 @@ public class PlayerScript : MonoBehaviour, IReceiver
             case CharacterState.Jumping:
                 HandleJumpingState();
                 break;
-        }  
+        }
     }
 
     private void HandleIdlingState()
@@ -82,7 +84,7 @@ public class PlayerScript : MonoBehaviour, IReceiver
             this.NotifyObservers(Event.PlayerJumped);
 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.fixedDeltaTime);
-            Game.Instance.SOMA.PlaySound("Jump");           
+            Game.Instance.SOMA.PlaySound("Jump");
             StartJump();
         }
         else if (isGrounded && Input.GetKeyDown(KeyCode.S))
@@ -168,7 +170,7 @@ public class PlayerScript : MonoBehaviour, IReceiver
 
     private void GroundedCheck()
     {
-        isGrounded = Physics2D.OverlapBox(groundDetect.position, 
+        isGrounded = Physics2D.OverlapBox(groundDetect.position,
             new Vector2(groundCheckWidth, groundCheckHeight), 0f, groundLayer);
         an.SetBool("isJumping", !isGrounded);
     }
@@ -187,4 +189,5 @@ public class PlayerScript : MonoBehaviour, IReceiver
         Debug.Log("Resetting jumpStarted.");
         jumpStarted = false;
     }
+
 }
