@@ -38,6 +38,8 @@ public class Game : MonoBehaviour
         SOMA.AddSound("Roll", Resources.Load<AudioClip>("roll"), SoundManager.SoundType.SOUND_SFX);
         SOMA.AddSound("StillDre", Resources.Load<AudioClip>("StillDre"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.AddSound("I_Ran", Resources.Load<AudioClip>("I_Ran"), SoundManager.SoundType.SOUND_MUSIC);
+        SOMA.AddSound("StartTheme", Resources.Load<AudioClip>("StartTheme"), SoundManager.SoundType.SOUND_MUSIC);
+        SOMA.AddSound("LoseTheme", Resources.Load<AudioClip>("LoseTheme"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.PlayMusic("I_Ran");
     }
 
