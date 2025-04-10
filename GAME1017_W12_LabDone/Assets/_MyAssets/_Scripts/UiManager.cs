@@ -47,6 +47,12 @@ public class UiManager : MonoBehaviour
         UpdateBestTime(bestTime);
     }
 
+    public void CloseOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
+        Time.timeScale = 1f; // Unpause the game if it was paused
+    }
+
     // Handle sound slider change
     private void OnSoundSliderChanged(float value)
     {
