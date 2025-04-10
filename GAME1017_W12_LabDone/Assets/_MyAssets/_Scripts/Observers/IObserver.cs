@@ -3,6 +3,8 @@ public enum Event
 {
     PlayerJumped,
     FiveRolls,
+    JumpedOver10Obstacles,
+    RollUnder10Obstacles
 }
 
 public interface IObserver

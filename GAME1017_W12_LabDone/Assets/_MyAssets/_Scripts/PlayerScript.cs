@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IReceiver
     [SerializeField] private bool isGrounded; // Just so we can see in Editor.
     [SerializeField] private float moveForce;
     [SerializeField] private float jumpForce;
+    [SerializeField] private Collider2D jumpOverTriggerZone;
     public LayerMask groundLayer;
     private float groundCheckWidth = 2.0f;
     private float groundCheckHeight = 0.25f;
@@ -24,7 +25,8 @@ public class PlayerScript : MonoBehaviour, IReceiver
     private Rigidbody2D rb;
     private CapsuleCollider2D cc;
 
-
+    private int rollsUnderObstacles = 0;
+    private int jumpOverObstacles = 0;
 
     private CharacterState currentState;
     private bool jumpStarted;
@@ -97,6 +99,38 @@ public class PlayerScript : MonoBehaviour, IReceiver
             Game.Instance.SOMA.PlayLoopedSound("Roll");
             an.SetBool("isRolling", true);
             currentState = CharacterState.Rolling;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if the player has hit an obstacle
+        if (other.CompareTag("Obstacle"))
+        {
+            // Check if the player is jumping and grounded
+            if (currentState == CharacterState.Jumping)
+            {
+                jumpOverObstacles++;
+                Debug.Log("Jump Over Obstacle");
+
+                // Check if the player has jumped over 10 obstacles
+                if (jumpOverObstacles >= 2)
+                {
+                    this.NotifyObservers(Event.JumpedOver10Obstacles);
+                }
+            }
+
+            // Check if the player is rolling and grounded
+            if (currentState == CharacterState.Rolling && isGrounded)
+            {
+                rollsUnderObstacles++;
+                Debug.Log("Rolled Under Obstacle");
+
+                // Check if the player has rolled under 10 obstacles
+                if (rollsUnderObstacles >= 2)
+                {
+                    this.NotifyObservers(Event.RollUnder10Obstacles);
+                }
+            }
         }
     }
 
