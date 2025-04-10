@@ -2781,9 +2781,10 @@ MonoBehaviour:
   obstacles: []
   moveSpeed: -4
   sprites:
-  - {fileID: -2413806693520163455, guid: cfafe1cf5d2f10942940a8c6a3a68314, type: 3}
-  - {fileID: 7482667652216324306, guid: 8bbbb3281ea985346bd84d67ad5b234f, type: 3}
-  - {fileID: 7482667652216324306, guid: dc389d99e3d311945b63b64230b02e92, type: 3}
+  - {fileID: 21300000, guid: fb8b9ce6a892c384f84a539c89d303fd, type: 3}
+  - {fileID: 21300000, guid: 94c048acffb4e864fbb35085b1e01cff, type: 3}
+  - {fileID: 21300000, guid: cca533de704accb489f7d6463cd75e3f, type: 3}
+  - {fileID: 21300000, guid: f9a7d61ed30c9b34da4dd9367ed9f38e, type: 3}
 --- !u!4 &1773282583
 Transform:
   m_ObjectHideFlags: 0
