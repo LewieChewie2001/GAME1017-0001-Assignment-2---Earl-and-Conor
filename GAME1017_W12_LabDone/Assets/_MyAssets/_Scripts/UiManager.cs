@@ -34,9 +34,17 @@ public class UiManager : MonoBehaviour
     }
 
     // Toggle the visibility of the options panel
-    public void ToggleOptionsPanel(bool isPaused)
+    public void OpenOptionsPanel()
     {
-        optionsPanel.SetActive(isPaused);
+        ShowOptionsPanel();
+    }
+
+    public void ShowOptionsPanel()
+    {
+        optionsPanel.SetActive(true);
+
+        float bestTime = PlayerPrefs.GetFloat("BestTime", 0f); // Use PlayerPrefs or bestRecordedTime
+        UpdateBestTime(bestTime);
     }
 
     // Handle sound slider change

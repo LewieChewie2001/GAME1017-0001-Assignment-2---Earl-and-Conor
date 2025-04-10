@@ -63,6 +63,9 @@ public class Lives : MonoBehaviour
             if (currentLives <= 0)
             {
                 Debug.Log("Player Died");
+
+                Game.Instance.CheckAndUpdateBestTime();
+
                 SceneManager.LoadScene("Losing"); // Load the losing scene
             }
         }

@@ -51,6 +51,6 @@ public class MainController : MonoBehaviour
     {
         bool isPaused = Time.timeScale == 0f;
         Time.timeScale = isPaused ? 1f : 0f;  // Toggle time scale
-        uiManager.ToggleOptionsPanel(isPaused); // Show or hide the options panel
+        uiManager.OpenOptionsPanel(); // Show or hide the options panel
     }
 }

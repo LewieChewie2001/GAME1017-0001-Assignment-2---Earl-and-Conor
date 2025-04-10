@@ -13,6 +13,8 @@ public class Game : MonoBehaviour
     [SerializeField] private TMP_Text bestTime;
 
     private float gameTime = 0f;
+    private float bestRecordedTime = 0f;
+
 
     private void Awake()
     {
@@ -41,6 +43,7 @@ public class Game : MonoBehaviour
         SOMA.AddSound("StartTheme", Resources.Load<AudioClip>("StartTheme"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.AddSound("LoseTheme", Resources.Load<AudioClip>("LoseTheme"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.PlayMusic("I_Ran");
+        bestRecordedTime = PlayerPrefs.GetFloat("BestTime", 0f);
     }
 
     private void OnEnable()
@@ -55,13 +58,22 @@ public class Game : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // If references are null, try to reassign them
+        // Reassign UI references
         if (timerText == null)
             timerText = GameObject.Find("TimerText")?.GetComponent<TMP_Text>();
 
         if (bestTime == null)
             bestTime = GameObject.Find("BestTime")?.GetComponent<TMP_Text>();
+
+        if (bestTime != null && bestRecordedTime == 0f)
+            bestTime.text = "Best Time: 0.00";
+
+        if (scene.name != "Losing")
+        {
+            ResetTimer();
+        }
     }
+
 
     private void Update()
     {
@@ -77,12 +89,35 @@ public class Game : MonoBehaviour
     public void ResetTimer()
     {
         gameTime = 0f;
+
         if (timerText != null)
             timerText.text = "Time: 0.00s";
+
+        if (bestTime != null && bestRecordedTime == 0f)
+            bestTime.text = "Best Time: 0.00";
     }
+
 
     public float GetCurrentTime()
     {
         return gameTime;
     }
+
+    public void CheckAndUpdateBestTime()
+    {
+        float currentTime = GetCurrentTime();
+        float savedBest = PlayerPrefs.GetFloat("BestTime", 0f);
+
+        if (currentTime > savedBest)
+        {
+            PlayerPrefs.SetFloat("BestTime", currentTime);
+            PlayerPrefs.Save(); // optional but ensures write
+
+            bestRecordedTime = currentTime;
+
+            if (UiManager.Instance != null)
+                UiManager.Instance.UpdateBestTime(currentTime);
+        }
+    }
+
 }
