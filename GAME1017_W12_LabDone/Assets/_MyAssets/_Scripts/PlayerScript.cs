@@ -228,5 +228,14 @@ public class PlayerScript : MonoBehaviour, IReceiver
     }
 
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            TakeDamage();
+        }
+    }
+
+
 
 }
