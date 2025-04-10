@@ -35,15 +35,17 @@ public class ObstacleManager : MonoBehaviour
             obstacles.RemoveAt(0);
             float yPos = -22f;
 
-            // Every 4th obstacle, raise it
-            if (obsCtr % 4 == 0)
+
+            // 25% chance to spawn the obstacle higher
+            if (Random.value < 0.25f)
             {
-                yPos = -19f; // Higher Y position
+                yPos = -19f;
             }
+
             //respawns
             GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(32f, yPos, 0f), Quaternion.identity);
 
-            if (obsCtr++ % 3 == 0)
+            if (obsCtr++ % 4 == 0)
             {
                 obsInst.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
                 obsInst.AddComponent<BoxCollider2D>();
