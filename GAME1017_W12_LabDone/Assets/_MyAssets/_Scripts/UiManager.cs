@@ -14,6 +14,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] TMP_Text livesText;           // Lives display text
     private float gameTime = 0f;     // Timer for the game
     private int lives = 3;           // Example lives system
+    public static UiManager Instance;
+    public Image[] hearts;
 
     private void Start()
     {
@@ -50,6 +52,28 @@ public class UiManager : MonoBehaviour
         lives = newLives;
         livesText.text = "Lives: " + lives;
     }
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    public void UpdateLivesUI(int lives)
+    {
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i].enabled = i < lives;
+        }
+    }
+
+
 
     public void UpdateBestTime(float bestTime)
     {
