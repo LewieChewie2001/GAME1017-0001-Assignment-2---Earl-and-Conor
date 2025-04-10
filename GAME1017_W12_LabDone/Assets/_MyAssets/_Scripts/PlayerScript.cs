@@ -13,9 +13,6 @@ public enum CharacterState
 
 public class PlayerScript : MonoBehaviour, IReceiver
 {
-    private bool isInvulnerable = false;
-    [SerializeField] private float invulnerabilityDuration = 3f;
-    [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Transform groundDetect;
     [SerializeField] private bool isGrounded; // Just so we can see in Editor.
     [SerializeField] private float moveForce;
@@ -192,50 +189,4 @@ public class PlayerScript : MonoBehaviour, IReceiver
         Debug.Log("Resetting jumpStarted.");
         jumpStarted = false;
     }
-
-    public void TakeDamage()
-    {
-        if (isInvulnerable)
-        {
-            Debug.Log("Player is invulnerable. No damage taken.");
-            return;
-        }
-
-        // Reduce health here if you have a health system (e.g., currentHealth--)
-        Debug.Log("Player took damage!");
-
-        StartCoroutine(StartInvulnerability());
-    }
-
-    private IEnumerator StartInvulnerability()
-    {
-        isInvulnerable = true;
-        Debug.Log("Player is now invulnerable.");
-
-        // Optional: make the sprite blink
-        float elapsed = 0f;
-        while (elapsed < invulnerabilityDuration)
-        {
-            sr.enabled = false;
-            yield return new WaitForSeconds(0.2f);
-            sr.enabled = true;
-            yield return new WaitForSeconds(0.2f);
-            elapsed += 0.4f;
-        }
-
-        isInvulnerable = false;
-        Debug.Log("Invulnerability ended.");
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Obstacle"))
-        {
-            TakeDamage();
-        }
-    }
-
-
-
 }

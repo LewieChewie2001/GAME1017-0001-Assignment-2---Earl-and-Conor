@@ -33,15 +33,23 @@ public class ObstacleManager : MonoBehaviour
             // Remove the first obstacle.
             Destroy(obstacles[0]);
             obstacles.RemoveAt(0);
-            // Push a new obstacle at the end.
-            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(32f, -21f, 0f), Quaternion.identity);
+            float yPos = -22f;
+
+            // Every 4th obstacle, raise it
+            if (obsCtr % 4 == 0)
+            {
+                yPos = -19f; // Higher Y position
+            }
+            //respawns
+            GameObject obsInst = GameObject.Instantiate(obstaclePrefab, new Vector3(32f, yPos, 0f), Quaternion.identity);
+
             if (obsCtr++ % 3 == 0)
             {
                 obsInst.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
                 obsInst.AddComponent<BoxCollider2D>();
             }
             obsInst.transform.parent = transform;
-            obsInst.layer = 3;
+            obsInst.layer = 4;
             obstacles.Add(obsInst);
         }
     }
