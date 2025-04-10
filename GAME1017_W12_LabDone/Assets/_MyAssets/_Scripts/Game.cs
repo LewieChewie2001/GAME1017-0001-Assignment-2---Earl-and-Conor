@@ -6,25 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-    public static Game Instance { get; private set; } // Static object of the class.
+    public static Game Instance { get; private set; }
     public SoundManager SOMA;
 
-    [SerializeField] TMP_Text timerText;
-    [SerializeField] TMP_Text bestTime;
-    private float startTime;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text bestTime;
 
-    private void Awake() // Ensure there is only one instance.
+    private float gameTime = 0f;
+
+    private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Will persist between scenes.
-            Initialize();
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Destroy(gameObject); // Destroy duplicate instances.
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        Initialize();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Initialize()
@@ -36,18 +46,41 @@ public class Game : MonoBehaviour
         SOMA.AddSound("StillDre", Resources.Load<AudioClip>("StillDre"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.AddSound("I_Ran", Resources.Load<AudioClip>("I_Ran"), SoundManager.SoundType.SOUND_MUSIC);
         SOMA.PlayMusic("I_Ran");
-
-        startTime = Time.time;
-        StartCoroutine("UpdateTimer"); // Because you'll want a way to stop the timer too upon pause.
     }
 
-    private IEnumerator UpdateTimer()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        while (true)
+        // Assign new references from the scene
+        timerText = GameObject.Find("TimerText")?.GetComponent<TMP_Text>();
+        bestTime = GameObject.Find("BestTime")?.GetComponent<TMP_Text>();
+
+        if (timerText == null)
+            Debug.LogWarning("TimerText not found in scene!");
+
+        if (bestTime == null)
+            Debug.LogWarning("BestTime not found in scene!");
+    }
+
+    private void Update()
+    {
+        if (Time.timeScale > 0f)
         {
-            float elapsedTime = Time.time - startTime;
-            timerText.text = "Time: " + elapsedTime.ToString("F2") + "s";
-            yield return null;
+            gameTime += Time.deltaTime;
+
+            if (timerText != null)
+                timerText.text = "Time: " + gameTime.ToString("F2") + "s";
         }
+    }
+
+    public void ResetTimer()
+    {
+        gameTime = 0f;
+        if (timerText != null)
+            timerText.text = "Time: 0.00s";
+    }
+
+    public float GetCurrentTime()
+    {
+        return gameTime;
     }
 }

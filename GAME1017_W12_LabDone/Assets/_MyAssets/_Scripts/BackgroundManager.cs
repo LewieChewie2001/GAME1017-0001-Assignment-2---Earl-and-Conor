@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour
 {
-    [SerializeField] Transform[] backgrounds;
-    [SerializeField] Transform[] midgrounds;
-    [SerializeField] Transform[] foregrounds;
-    [SerializeField] float[] moveSpeeds;
+    [SerializeField] private Transform[] backgrounds;
+    [SerializeField] private Transform[] midgrounds;
+    [SerializeField] private Transform[] foregrounds;
+    [SerializeField] private float[] moveSpeeds; // [background, midground, foreground]
+
     private float[] sizes;
     private float[] backgroundStarts;
     private float[] midgroundStarts;
     private float[] foregroundStarts;
 
-    // Start is called before the first frame update
     void Start()
     {
         sizes = new float[3];
@@ -32,69 +32,43 @@ public class BackgroundManager : MonoBehaviour
         foregroundStarts = new float[foregrounds.Length];
         for (int i = 0; i < foregrounds.Length; i++)
             foregroundStarts[i] = foregrounds[i].transform.position.x;
-
-        // Fixed interval versions that won't use physics engine.
-        // Start the Coroutine version.
-        // StartCoroutine("MoveBackgroundCoroutine");
-        // Start the InvokeRepeating version.
-        InvokeRepeating("MoveBackgrounds", 0f, Time.fixedDeltaTime);
     }
 
     void Update()
     {
-        // MoveBackgrounds(); // The non-fixed way.
-    }
-
-    void FixedUpdate()
-    {
-        // MoveBackgrounds(); // The "don't use the physics engine for this" way.
-    }
-
-    IEnumerator MoveBackgroundCoroutine()
-    {
-        while (true) // We've essentially created our own Update.
+        if (Time.timeScale > 0f)
         {
             MoveBackgrounds();
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
     }
 
     private void MoveBackgrounds()
     {
-        // Scroll the backgrounds.
+        // Move all layers at their own speed
         foreach (var background in backgrounds)
-        {
-            background.Translate(moveSpeeds[0] * Time.fixedDeltaTime, 0.0f, 0.0f);
-        }
+            background.Translate(moveSpeeds[0] * Time.deltaTime, 0f, 0f);
         foreach (var midground in midgrounds)
-        {
-            midground.Translate(moveSpeeds[1] * Time.fixedDeltaTime, 0.0f, 0.0f);
-        }
+            midground.Translate(moveSpeeds[1] * Time.deltaTime, 0f, 0f);
         foreach (var foreground in foregrounds)
-        {
-            foreground.Translate(moveSpeeds[2] * Time.fixedDeltaTime, 0.0f, 0.0f);
-        }
-        // Bounce the backgrounds back.
-        if (backgrounds[0].transform.position.x <= -sizes[0])
+            foreground.Translate(moveSpeeds[2] * Time.deltaTime, 0f, 0f);
+
+        // Loop backgrounds
+        if (backgrounds[0].position.x <= -sizes[0])
         {
             for (int i = 0; i < backgrounds.Length; i++)
-            {
-                backgrounds[i].transform.position = new Vector3(backgroundStarts[i], -9.9f, 0f);
-            }
+                backgrounds[i].position = new Vector3(backgroundStarts[i], backgrounds[i].position.y, backgrounds[i].position.z);
         }
-        if (midgrounds[0].transform.position.x <= -sizes[1])
+
+        if (midgrounds[0].position.x <= -sizes[1])
         {
             for (int i = 0; i < midgrounds.Length; i++)
-            {
-                midgrounds[i].transform.position = new Vector3(midgroundStarts[i], -18.6f, 0f);
-            }
+                midgrounds[i].position = new Vector3(midgroundStarts[i], midgrounds[i].position.y, midgrounds[i].position.z);
         }
-        if (foregrounds[0].transform.position.x <= -sizes[2])
+
+        if (foregrounds[0].position.x <= -sizes[2])
         {
             for (int i = 0; i < foregrounds.Length; i++)
-            {
-                foregrounds[i].transform.position = new Vector3(foregroundStarts[i], -18.6f, 0f);
-            }
+                foregrounds[i].position = new Vector3(foregroundStarts[i], foregrounds[i].position.y, foregrounds[i].position.z);
         }
     }
 }
