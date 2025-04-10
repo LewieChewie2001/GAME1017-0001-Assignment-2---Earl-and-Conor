@@ -25,8 +25,7 @@ public class PlayerScript : MonoBehaviour, IReceiver
     private Rigidbody2D rb;
     private CapsuleCollider2D cc;
 
-    private int rollsUnderObstacles = 0;
-    private int jumpOverObstacles = 0;
+
 
     private CharacterState currentState;
     private bool jumpStarted;
@@ -106,30 +105,23 @@ public class PlayerScript : MonoBehaviour, IReceiver
         // Check if the player has hit an obstacle
         if (other.CompareTag("Obstacle"))
         {
-            // Check if the player is jumping and grounded
+            // Check if the player is jumping
             if (currentState == CharacterState.Jumping)
             {
-                jumpOverObstacles++;
                 Debug.Log("Jump Over Obstacle");
 
-                // Check if the player has jumped over 10 obstacles
-                if (jumpOverObstacles >= 2)
-                {
-                    this.NotifyObservers(Event.JumpedOver10Obstacles);
-                }
+
+                this.NotifyObservers(Event.JumpedOver10Obstacles);
+                
             }
 
             // Check if the player is rolling and grounded
             if (currentState == CharacterState.Rolling && isGrounded)
             {
-                rollsUnderObstacles++;
                 Debug.Log("Rolled Under Obstacle");
 
-                // Check if the player has rolled under 10 obstacles
-                if (rollsUnderObstacles >= 2)
-                {
-                    this.NotifyObservers(Event.RollUnder10Obstacles);
-                }
+
+                this.NotifyObservers(Event.RollUnder10Obstacles);
             }
         }
     }

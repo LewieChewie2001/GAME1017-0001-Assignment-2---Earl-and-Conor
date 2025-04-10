@@ -11,8 +11,8 @@ public class AchievementObserver : IObserver
 
         achievements[Event.PlayerJumped] = new Achievement("First Jump");
         achievements[Event.FiveRolls] = new Achievement("Five Rolls", 5);
-        achievements[Event.JumpedOver10Obstacles] = new Achievement("Jumped Over 10 Obstacles", 2);
-        achievements[Event.RollUnder10Obstacles] = new Achievement("Rolled Under 10 Obstacles", 2);
+        achievements[Event.JumpedOver10Obstacles] = new Achievement("Jumped Over 10 Obstacles", 10);
+        achievements[Event.RollUnder10Obstacles] = new Achievement("Rolled Under 10 Obstacles", 10);
     }
 
     public void OnNotify(Event gameEvent)
