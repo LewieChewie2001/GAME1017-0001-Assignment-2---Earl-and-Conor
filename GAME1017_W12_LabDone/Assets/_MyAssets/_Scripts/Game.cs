@@ -1,4 +1,4 @@
- using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -18,24 +18,17 @@ public class Game : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             return;
         }
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        Initialize();
+
+        Debug.Log("GameManager Awake on: " + gameObject.name);
+        Initialize(); // ← THIS LINE WAS MISSING
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
 
     private void Initialize()
     {
@@ -48,17 +41,24 @@ public class Game : MonoBehaviour
         SOMA.PlayMusic("I_Ran");
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Assign new references from the scene
-        timerText = GameObject.Find("TimerText")?.GetComponent<TMP_Text>();
-        bestTime = GameObject.Find("BestTime")?.GetComponent<TMP_Text>();
-
+        // If references are null, try to reassign them
         if (timerText == null)
-            Debug.LogWarning("TimerText not found in scene!");
+            timerText = GameObject.Find("TimerText")?.GetComponent<TMP_Text>();
 
         if (bestTime == null)
-            Debug.LogWarning("BestTime not found in scene!");
+            bestTime = GameObject.Find("BestTime")?.GetComponent<TMP_Text>();
     }
 
     private void Update()
